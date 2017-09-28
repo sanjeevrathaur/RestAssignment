@@ -1,15 +1,17 @@
 package com.test.rest.service.controller;
 
+import com.test.data.source.FileDataSource;
 import com.test.model.Account;
 import com.test.utils.Constant;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.*;
 
 // Plain old Java Object it does not extend as class or implements
 // an interface
@@ -40,40 +42,89 @@ public class AccountRestController {
         System.out.println(accountData);
         com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 
+
         FileWriter fileWriter = null;
+
         try{
             Account account = objectMapper.readValue(accountData, Account.class);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("customerName", account.getCustomerName());
+            jsonObject.put("currency", account.getCurrency());
+            jsonObject.put("amount", account.getAmount());
+            JSONObject tempObject = new JSONObject();
+            tempObject.put("account", jsonObject);
 
-            fileWriter = new FileWriter("D:\\inteilljwork\\database.json", true);
-            fileWriter.write(accountData);
-            fileWriter.flush();
-
-            System.out.println("customer : "+account.getCustomerName());
-
-            File file = new File(Constant.DATA_SOURCE_FILE_LOCATION);
-
-            FileInputStream inStream = new FileInputStream(file);
-            byte dataBuffer[] = new byte[inStream.available()];
-            inStream.read(dataBuffer);
-            String dataJSONAsStr = new String(dataBuffer);
-
-            System.out.println("dataJSONAsStr : "+ dataJSONAsStr);
-
-            JSONArray allRecords = new JSONArray(dataJSONAsStr);
-            System.out.println("Json Array : "+ allRecords);
-            for (int i=0; i<allRecords.length(); i++) {
-                JSONObject item = allRecords.getJSONObject(i);
-                String name = item.getString("customerName");
-                String surname = item.getString("amount");
+            JSONArray jsonArray = readJsonFile();
+            if(jsonArray == null){
+                jsonArray = new JSONArray();
             }
-            fileWriter.close();
+            jsonArray.add(tempObject);
 
-        }catch (Exception e){
+            try (FileWriter file = new FileWriter("D:\\inteilljwork\\database.json")) {
+
+                file.write(jsonArray.toJSONString());
+                file.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }catch (IOException e){
             e.printStackTrace();
         }
 
 
         return "Hello Jersey";
+    }
+
+    private JSONArray readJsonFile(){
+
+        JSONArray employeeList = null;
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader("D:\\inteilljwork\\database.json"))
+        {
+            //Read JSON file
+            if(reader.read() == -1){
+                return employeeList;
+            }
+            employeeList = (JSONArray)jsonParser.parse(reader);
+
+            new JSONArray("xcvcx");
+            //employeeList = (JSONArray) obj;
+            System.out.println(employeeList);
+
+            System.out.println("Size of list is : "+employeeList.size());
+
+            //Iterate over employee array
+            employeeList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return employeeList;
+    }
+
+    private void parseEmployeeObject(JSONObject employee)
+    {
+        //Get employee object within list
+        JSONObject employeeObject = (JSONObject) employee.get("account");
+
+        //Get employee first name
+        String firstName = (String) employeeObject.get("customerName");
+        System.out.println(firstName);
+
+        //Get employee last name
+        String lastName = (String) employeeObject.get("currency");
+        System.out.println(lastName);
+
+        //Get employee website name
+        Double website = (Double) employeeObject.get("amount");
+        System.out.println(website);
     }
 
 
