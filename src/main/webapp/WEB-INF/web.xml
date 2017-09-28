@@ -21,7 +21,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>JAX-RS Servlet</servlet-name>
-        <url-pattern>/api/*</url-pattern>
+        <url-pattern>/v1/accounts/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
