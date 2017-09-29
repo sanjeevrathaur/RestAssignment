@@ -8,6 +8,12 @@ import org.json.JSONObject;
 
 import java.io.*;
 
+/**
+ * This class is used to habdle all file resources related functionality
+ * @author Sanjeev
+ *
+ * */
+
 public class FileDataSource {
 
     private File fileAsDataBase = null;

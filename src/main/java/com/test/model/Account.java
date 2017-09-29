@@ -1,5 +1,10 @@
 package com.test.model;
 
+/**
+ * This class is used as pojo for holding customer account details
+ * @author Sanjeev
+ *
+ * */
 public class Account {
 
     private int id;

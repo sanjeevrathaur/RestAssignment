@@ -4,6 +4,9 @@ import com.test.dao.AccountDAO;
 import com.test.model.Account;
 import com.test.utils.BusinessException;
 
+import java.util.Collections;
+import java.util.List;
+
 public class AccountDAOImpl implements AccountDAO {
 
 
@@ -19,12 +22,15 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public void getAccounts() throws BusinessException {
+    public List<Account> getAccounts() throws BusinessException {
+
+        return Collections.emptyList();
 
     }
 
     @Override
-    public void getAccount(Integer id) throws BusinessException {
+    public Account getAccount(Integer id) throws BusinessException {
+        return null;
 
     }
 }

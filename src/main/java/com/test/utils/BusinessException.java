@@ -1,5 +1,10 @@
 package com.test.utils;
 
+/**
+ * This class is used for display any business Exception.
+ * @author Sanjeev
+ *
+ * */
 public class BusinessException extends Exception {
 
     public BusinessException(){
