@@ -82,6 +82,7 @@ public class AccountRestController {
             }
             jsonArray.put(tempObject);
 
+
             try (FileWriter file = new FileWriter(Constant.DATA_SOURCE_FILE_LOCATION)) {
                 file.write(jsonArray.toString());
                 file.flush();

@@ -54,36 +54,19 @@ public class FileDataSource {
 
     public synchronized /*File*/ JSONArray readObjects() throws Exception{
 
-/*        File file = openFile();
-        FileInputStream inStream = new FileInputStream(file);
-        byte dataBuffer[] = new byte[inStream.available()];
-        inStream.read(dataBuffer);
-        String dataJSONAsStr = new String(dataBuffer);
-
-        JSONArray allRecords = new JSONArray(dataJSONAsStr);
-        for (int i=0; i<allRecords.length(); i++) {
-            String item = (String)allRecords.get(i);
-            org.json.simple.JSONObject json = (org.json.simple.JSONObject) new org.json.simple.parser.JSONParser().parse(item);
-            String name = json.get("customerName").toString();
-            System.out.println("name : "+ name);
-            String amount = json.get("amount").toString();
-        }*/
 
         // convert dataJSONAsStr into JSONArray
         // iterate over array to get a record in basis of getID
         //return the Object
 
-
         org.json.JSONArray employeeList = null;
         org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
-        try (FileReader reader = new FileReader(Constant.DATA_SOURCE_FILE_LOCATION))
-        {
-            //Read JSON file
-            if(reader.read() == -1){
-                return employeeList;
-            }
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("database.json").getFile());
 
-            File files =  new File("D:\\inteilljwork\\database.json");
+        try
+        {
+            File files =  new File(classLoader.getResource("database.json").getFile());
 
             FileInputStream is = new FileInputStream(files);
             is = new FileInputStream(files);
@@ -167,8 +150,9 @@ public class FileDataSource {
         return result;
     }
 
-    public String updateRecordPartialy(Json){
+    public String updateRecordPartialy(JSONObject jsonObject){
 
+    return  "";
 
     }
 
