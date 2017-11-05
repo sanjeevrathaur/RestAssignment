@@ -5,6 +5,10 @@ import com.test.utils.BusinessException;
 
 import java.util.List;
 
+/**
+  This interface will caontains all methods related to customer account.
+*/
+
 public interface AccountDAO {
 
     void save(Account account) throws BusinessException;
