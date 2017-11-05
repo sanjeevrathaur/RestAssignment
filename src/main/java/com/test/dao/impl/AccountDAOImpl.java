@@ -7,6 +7,9 @@ import com.test.utils.BusinessException;
 import java.util.Collections;
 import java.util.List;
 
+/**
+This class will implements accountDao interface. which contains all method related to customer account.
+*/
 public class AccountDAOImpl implements AccountDAO {
 
 
